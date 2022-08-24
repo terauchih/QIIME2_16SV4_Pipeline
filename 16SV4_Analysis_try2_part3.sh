@@ -1,7 +1,7 @@
 #!/bin/bash -login
 
 #date created: 4/8/2019
-#date modified: NA
+#date modified: 8/24/2022 (Update to qiime2-2022.2)
 
 #Hinako Terauchi 
 
@@ -26,7 +26,7 @@
 conda init bash
 
 #activating QIIME2 software
-conda activate qiime2-2019.1
+conda activate qiime2-2022.2
 
 #Getting version 128 of QIIME Silva release
 #(**Update link and version as needed)
@@ -35,9 +35,9 @@ wget https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_128_release.
 #Unzipping a .tgz file
 tar zxvf Silva_128_release.tgz
 
-#Importing the reference file into a QIIME format
-#(***CHANGE THE input-path!!)
-qiime tools import --input-path ~/MC58_QIIME2/SILVA_128_QIIME_release/rep_set/rep_set_16S_only/97/97_otus_16S.fasta --output-path SILVA97-reference.qza --type 'FeatureData[Sequence]'
+#**Importing the reference file into a QIIME format**
+# (Change input-path below)
+qiime tools import --input-path ~/PROJECT_DIR/SILVA_128_QIIME_release/rep_set/rep_set_16S_only/97/97_otus_16S.fasta --output-path SILVA97-reference.qza --type 'FeatureData[Sequence]'
 
 #Clustering at 97%
 qiime vsearch cluster-features-closed-reference --i-table table.qza --i-sequences rep-seqs.qza --i-reference-sequences SILVA97-reference.qza --p-perc-identity 0.97 --o-clustered-table table-cr-97.qza --o-clustered-sequences rep-seqs-cr-97.qza --o-unmatched-sequences unmatched-cr-97.qza

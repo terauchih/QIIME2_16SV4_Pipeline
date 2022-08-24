@@ -1,7 +1,7 @@
 #!/bin/bash -login
 
 #date created: 4/8/2019
-#date modified: NA
+#date modified: 8/24/2022 (Update to qiime2-2022.2)
 
 #Hinako Terauchi 
 
@@ -27,15 +27,15 @@
 conda init bash
 
 #activating QIIME2 software
-conda activate qiime2-2019.1
+conda activate qiime2-2022.2
 
-#Importing taxonomy data
-#(***CHANGE THE input-path!!)
-qiime tools import --type 'FeatureData[Taxonomy]' --input-format HeaderlessTSVTaxonomyFormat --input-path ~/MC58_QIIME2/SILVA_128_QIIME_release/taxonomy/16S_only/97/majority_taxonomy_all_levels.txt --output-path ref-taxonomy.qza
+#**Importing taxonomy data**
+# (Change the input-path for `PROJECT_DIR` below)
+qiime tools import --type 'FeatureData[Taxonomy]' --input-format HeaderlessTSVTaxonomyFormat --input-path ~/PROJECT_DIR/SILVA_128_QIIME_release/taxonomy/16S_only/97/majority_taxonomy_all_levels.txt --output-path ref-taxonomy.qza
 
-#Importing consensus taxonomy file
-#(***CHANGE THE input-path)
-qiime tools import --type 'FeatureData[Taxonomy]' --input-format HeaderlessTSVTaxonomyFormat --input-path ~/MC58_QIIME2/SILVA_128_QIIME_release/taxonomy/16S_only/97/consensus_taxonomy_all_levels.txt --output-path consensus_ref_taxonomy.qza
+#**Importing consensus taxonomy file**
+# (Change the input-path for `PROJECT_DIR` below)
+qiime tools import --type 'FeatureData[Taxonomy]' --input-format HeaderlessTSVTaxonomyFormat --input-path ~/PROJECT_DIR/SILVA_128_QIIME_release/taxonomy/16S_only/97/consensus_taxonomy_all_levels.txt --output-path consensus_ref_taxonomy.qza
 
 #Classifying taxonomy to chimera-filtered sequences
 qiime feature-classifier classify-consensus-vsearch --i-query uchime-dn-out/rep-seqs-nonchimeric-wo-borderline.qza --i-reference-reads SILVA97-reference.qza --i-reference-taxonomy consensus_ref_taxonomy.qza --o-classification taxonomy_output.qza

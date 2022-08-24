@@ -1,7 +1,7 @@
 #!/bin/bash -login
 
 #date created: 4/8/2019
-#date modified: NA
+#date modified: 8/24/2022 (update to qiime2-2022.2)
 
 #Hinako Terauchi 
 
@@ -27,7 +27,7 @@
 conda init bash
 
 #activating QIIME2 software
-conda activate qiime2-2019.1
+conda activate qiime2-2022.2
 
 #Running quality control
 qiime quality-filter q-score-joined --i-demux demux-joined.qza --o-filtered-sequences demux-joined-filtered.qza --o-filter-stats demux-joined-filter-stats.qza
