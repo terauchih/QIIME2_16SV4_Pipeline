@@ -1,7 +1,7 @@
 #!/bin/bash -login
 
 #Date created: 4/8/2019
-#Date modified: 8/24/2022 (update to qiimw2-2022.2)
+#Date modified: 8/26/2022 (added sequence file name change step)
 #Hinako Terauchi 
 
 #This is part 1 of second attempt at submission script of QIIME2 to HPCC
@@ -39,6 +39,14 @@ mkdir PROJECT_Sequences
 #**Copy sequences from the Sequence_Archives to the newly made dir**
 # (Change the path and the dir name below)
 cp ~/Sequence_Archives/PROJECT_16S_data/*.fastq.gz ~/PROJECT_DIR/PROJECT_Sequences/
+
+#**OPTIONAL depending on sequence file names**
+# Change the "_" in sample names to "-"
+# having "_" in sample name part clogs up Deblur
+cd PROJECT_Sequences
+cp ~/QIIME2_Scripts/renaming_seq_names.sh .
+bash renaming_seq_names.sh
+cd ..
 
 #**Import sequences as a QIIME file**
 # (Change the input-path below)
