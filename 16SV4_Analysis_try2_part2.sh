@@ -1,7 +1,7 @@
 #!/bin/bash -login
 
 #date created: 4/8/2019
-#date modified: 8/24/2022 (update to qiime2-2022.2)
+#date modified: 8/26/2022 (inserted the sequence file name change for deblur)
 
 #Hinako Terauchi 
 
@@ -31,6 +31,14 @@ conda activate qiime2-2022.2
 
 #Running quality control
 qiime quality-filter q-score-joined --i-demux demux-joined.qza --o-filtered-sequences demux-joined-filtered.qza --o-filter-stats demux-joined-filter-stats.qza
+
+#**OPTIONAL depending on sequence file names**
+# Change the "_" in sample names to "-"
+# having "_" in sample name part clogs up Deblur
+cd PROJECT_Sequences
+cp ~/QIIME2_Scripts/renaming_seq_names.sh .
+bash renaming_seq_names.sh
+cd ..
 
 #Denoising with deblur
 qiime deblur denoise-16S --i-demultiplexed-seqs demux-joined-filtered.qza --p-trim-length 251 --p-sample-stats --o-representative-sequences rep-seqs.qza --o-table table.qza --o-stats deblur-stats.qza
