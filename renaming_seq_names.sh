@@ -5,7 +5,7 @@
 ## This script will reduce down the '_' thats in the names
 
 # Created: 8/15/2019
-# Last Edited: 8/26/2022
+# Last Edited: 8/30/2022 (removed hard coding and added variables)
 ## - Added saving the original and the new names in a .csv
 # Hinako Terauchi 
 
@@ -18,9 +18,11 @@ echo originalName \, changedName >> ../seqNameChanges.csv
 
 for name in $(ls *.fastq.gz); do
 	echo $name
-	a=$(echo ${name%_L001*} | tr \_ \-)
-	echo ${name%_L001*} \, $a >> ../seqNameChanges.csv
-	mv ${name} $a${name:(-21)}
+	ogName=$(echo ${name%_S[0-9]*})
+	newName=$(echo $ogName | tr \_ \-) 
+	
+	echo $ogName \, $newName >> ../seqNameChanges.csv
+	mv ${name} $newName${name##$ogName}
 done
 
 
