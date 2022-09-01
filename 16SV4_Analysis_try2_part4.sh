@@ -1,7 +1,7 @@
 #!/bin/bash -login
 
 #date created: 4/8/2019
-#date modified: 8/24/2022 (Update to qiime2-2022.2)
+#date modified: 8/31/2022 (Added .qsv export)
 
 #Hinako Terauchi 
 
@@ -40,8 +40,27 @@ qiime tools import --type 'FeatureData[Taxonomy]' --input-format HeaderlessTSVTa
 #Classifying taxonomy to chimera-filtered sequences
 qiime feature-classifier classify-consensus-vsearch --i-query uchime-dn-out/rep-seqs-nonchimeric-wo-borderline.qza --i-reference-reads SILVA97-reference.qza --i-reference-taxonomy consensus_ref_taxonomy.qza --o-classification taxonomy_output.qza
 
+#Generating visualized file of taxonomy classification
+qiime metadata tabulate --m-input-file taxonomy_output.qza  --o-visualization taxonomy_output.qzv
+
+# Exporting taxonomy_output.qzv:
+qiime tools export --input-path taxonomy_output.qzv --output-path exportFiles/taxonOutput
+
 #Creating Barplot:
-qiime taxa barplot --i-table uchime-dn-out/table-nonchimeric-wo-borderline.qza --i-taxonomy taxonomy_output.qza --m-metadata-file uchime-dn-out/nonchimeras.qza --o-visualization barplot.qzv
+qiime taxa barplot --i-table uchime-dn-out/table-nonchimeric-wo-borderline.qza --i-taxonomy taxonomy_output.qza --o-visualization barplot.qzv
+
+# Export barplot.qzv:
+## once complete, go into /exportedFiles/barplot and obtain level-6.csv
+qiime tools export --input-path barplot.qzv --output-path exportFiles/barplot 
+
+
+
+
+
+
+
+
+
 
 
 

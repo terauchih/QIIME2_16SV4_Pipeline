@@ -1,7 +1,7 @@
 #!/bin/bash -login
 
 #date created: 4/8/2019
-#date modified: 8/24/2022 (Update to qiime2-2022.2)
+#date modified: 8/31/2022 (Added .qsv export))
 
 #Hinako Terauchi 
 
@@ -42,6 +42,13 @@ qiime tools import --input-path ~/PROJECT_DIR/SILVA_128_QIIME_release/rep_set/re
 #Clustering at 97%
 qiime vsearch cluster-features-closed-reference --i-table table.qza --i-sequences rep-seqs.qza --i-reference-sequences SILVA97-reference.qza --p-perc-identity 0.97 --o-clustered-table table-cr-97.qza --o-clustered-sequences rep-seqs-cr-97.qza --o-unmatched-sequences unmatched-cr-97.qza
 
+# Visualized table-cr-97.qza:
+qiime feature-table summarize --i-table table-cr-97.qza --o-visualization table-cr-97.qzv
+
+# Export table-cr-97.qzv:
+qiime tools export --input-path table-cr-97.qzv --output-path exportFiles/tableCr97
+
+
 #Making a feature table file without chimeras or borderline chimeras
 #part 1
 qiime feature-table filter-features --i-table table.qza --m-metadata-file uchime-dn-out/nonchimeras.qza --o-filtered-table uchime-dn-out/table-nonchimeric-wo-borderline.qza
@@ -49,7 +56,12 @@ qiime feature-table filter-features --i-table table.qza --m-metadata-file uchime
 qiime feature-table filter-seqs --i-data rep-seqs.qza --m-metadata-file uchime-dn-out/nonchimeras.qza --o-filtered-data uchime-dn-out/rep-seqs-nonchimeric-wo-borderline.qza
 
 #Summarizing filtered sequences without chimeras
-qiime feature-table summarize --i-table uchime-dn-out/table-nonchimeric-wo-borderline.qza --o-visualization uchime-dn-out/table-nonchimeric-wo-borderline.qsv
+qiime feature-table summarize --i-table uchime-dn-out/table-nonchimeric-wo-borderline.qza --o-visualization uchime-dn-out/table-nonchimeric-wo-borderline.qzv
+
+# Exporting chimera-removed feature table .qsv:
+qiime tools export --input-path uchime-dn-out/table-nonchimeric-wo-borderline.qzv --output-path exportFiles/tableNonChimericWoBorderline
+
+
 
 ########################################################################
 
